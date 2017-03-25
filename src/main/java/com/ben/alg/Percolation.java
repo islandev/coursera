@@ -1,5 +1,6 @@
-package com.ben.alg;
+package  com.ben.alg;
 
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -105,6 +106,16 @@ public class Percolation {
     }
     // test client (optional)
     public static void main(String[] args){
-
+        Percolation perc = new Percolation(3);
+        perc.open(1, 2);
+        perc.open(2, 2);
+        perc.open(2, 3);
+        perc.open(3, 3);
+        boolean c = perc.isFull(1, 1);
+        //boolean c1 = perc.uf.connected(perc.ijTo1D(1, 1), perc.ijTo1D(2, 1));
+        //boolean c2 = perc.percolates();
+        StdOut.println(c);
+        //StdOut.println(c1);
+        //StdOut.println(c2);
     }
 }
