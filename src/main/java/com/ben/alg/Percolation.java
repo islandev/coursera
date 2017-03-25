@@ -7,8 +7,12 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
  * Created by Administrator on 2017/3/23.
  */
 public class Percolation {
-    private  int  row;
-
+    private  WeightedQuickUnionUF wuf;
+    private  int vtop;
+    private  int vbottom;
+    private  boolean[] status;
+    private  int gridLength;
+    private  int openSize;
 
 
     // create n-by-n grid, with all sites blocked
@@ -17,26 +21,87 @@ public class Percolation {
             throw  new IllegalArgumentException("N is less than 0");
         }
 
+        wuf = new WeightedQuickUnionUF(n*n+2);
+        vtop = n*n;
+        vbottom = n*n+1;
+        gridLength = n;
+        status = new boolean[n*n+2];
+        openSize = 0;
     }
+
+    /**
+     * validate the index out  of bound
+     * row col the postion of the index
+     */
+    public  boolean validateBound(int row,int col){
+        if(row<0||col<0||row>gridLength||col>gridLength) return  false;
+        return  true;
+    }
+
+    /**
+     * convert 2-d to 1-d index
+     */
+    public  int indexConvertor(int row,int col){
+        return  row*gridLength+col;
+    }
+
+
     // open site (row, col) if it is not open already
     public    void open(int row, int col){
+        if(validateBound(row,col)){
+            if(isOpen(row, col))  return;
+            openSize++;
+            int curIndex =indexConvertor(row,col);
+            if(row==0){
+                wuf.union(curIndex,vtop);
+            }
+            if(row ==gridLength-1){
+                wuf.union(curIndex,vbottom);
+            }
+            if(row>0){
+                int downIndex = indexConvertor(row+1,col);
+                if(isOpen(row+1,col)){
+                    wuf.union(curIndex,downIndex);
+                }
+            }
+            if(row<gridLength-1){
+                int upIndex = indexConvertor(row-1,col);
+                if(isOpen(row-1,col)){
+                    wuf.union(curIndex,upIndex);
+                }
+            }
+            if(col<gridLength-1){
+                if(isOpen(row,col+1)){
+                    wuf.union(curIndex,curIndex+1);
+                }
+            }
+            if(col>0){
+                if (isOpen(row,col-1)){
+                    wuf.union(curIndex,curIndex-1);
+                }
+            }
+        }
 
     }
     // is site (row, col) open?
     public boolean isOpen(int row, int col){
-        return  false;
+        return  status[indexConvertor(row,col)];
     }
     // is site (row, col) full?
     public boolean isFull(int row, int col){
-        return  false;
+        if (!isOpen(row, col)){
+            return false;
+        }
+        return  wuf.connected(indexConvertor(row,col),vtop);
     }
     // number of open sites
     public     int numberOfOpenSites(){
-        return  0;
+
+        return  openSize;
     }
     // does the system percolate?
     public boolean percolates(){
-        return  false;
+        return  wuf.connected(vbottom,vtop);
     }
     // test client (optional)
     public static void main(String[] args){
