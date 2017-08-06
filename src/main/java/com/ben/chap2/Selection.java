@@ -9,15 +9,15 @@ public class Selection extends SortProcess {
       for (int j = i + 1; j < N; j++) {
         if (less(a[j], a[min])) {
           min = j;
+          exch(a, i, min);
         }
-        exch(a, i, min);
       }
     }
   }
 
   public static void main(String[] args) {
     Selection selection = new Selection();
-    String[] a = new String[]{"a", "e", "b"};
+    String[] a = new String[]{"a", "d", "b", "s"};
     selection.sort(a);
     assert selection.isSorted(a);
     selection.show(a);

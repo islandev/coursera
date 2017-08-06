@@ -14,7 +14,7 @@ public class Insertion extends SortProcess {
 
   public static void main(String[] args) {
     Insertion insertion = new Insertion();
-    String[] a = new String[]{"a","c","b"};
+    String[] a = new String[]{"a","c","b","e"};
     insertion.sort(a);
     assert  insertion.isSorted(a);
     insertion.show(a);

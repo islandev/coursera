@@ -20,7 +20,7 @@ public abstract class SortProcess {
 
   void show(Comparable[] a) {
     for (Comparable val : a) {
-      StdOut.print(val + "");
+      StdOut.print(val + "\t");
     }
     StdOut.println();
   }
