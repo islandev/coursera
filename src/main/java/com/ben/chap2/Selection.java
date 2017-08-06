@@ -1,6 +1,6 @@
 package com.ben.chap2;
 
-public class Selection extends SortExample {
+public class Selection extends SortProcess {
 
   void sort(Comparable[] a) {
     int N = a.length;
